@@ -5,27 +5,29 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Compiling application...'
+                echo 'Compiling Java program...'
+                bat 'javac HelloWorld.java'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running unit tests... Pass!'
+                echo 'Running Java program...'
+                bat 'java HelloWorld'
             }
         }
 
         stage('Package') {
             steps {
-                sh 'echo "Build Number: ${BUILD_NUMBER}" > build-info.txt'
-                sh 'echo "Build executed on $(date)" >> build-info.txt'
+                bat 'echo Build Number: %BUILD_NUMBER% > build-info.txt'
+                bat 'echo Build executed on %DATE% %TIME% >> build-info.txt'
             }
         }
     }
 
     post {
         success {
-            echo 'Build successful! Ready for release.'
+            echo 'Java program tested successfully!'
         }
     }
 }
